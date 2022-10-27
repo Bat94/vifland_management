@@ -3,6 +3,7 @@ package com.example.postviflandmanagement.controller;
 import com.example.postviflandmanagement.entity.Product;
 import com.example.postviflandmanagement.model.ProductRequestDTO;
 import com.example.postviflandmanagement.model.UpdateProductRequest;
+import com.example.postviflandmanagement.service.IProductService;
 import com.example.postviflandmanagement.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,6 +19,9 @@ import java.util.List;
 public class ProductController {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private IProductService iProductService;
 
     @RequestMapping(value = ("/product/"),method = RequestMethod.GET)
     public ResponseEntity<List<Product>> listAllProduct(){
@@ -48,5 +52,10 @@ public class ProductController {
     @RequestMapping(value = ("/productType"),method = RequestMethod.GET)
     public ResponseEntity <List<Product>> getListProduct(@RequestParam(required = false)int type){
         return productService.getListProduct(type);
+    }
+
+    @GetMapping("/product/{id}")
+    public ResponseEntity<Product> getProductId(@PathVariable(value = "id")Long id){
+        return iProductService.getProductId(id);
     }
 }
