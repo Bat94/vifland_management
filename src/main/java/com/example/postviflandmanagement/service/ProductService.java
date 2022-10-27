@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProductService {
+public class ProductService implements IProductService {
     @Autowired
     private ProductRepository productRepository;
 
@@ -88,5 +88,14 @@ public class ProductService {
     public ResponseEntity<List<Product>> getListProduct(int type) {
         List<Product> listAllProduct = productRepository.findByType(type);
         return ResponseEntity.ok(listAllProduct);
+    }
+
+    @Override
+    public ResponseEntity<Product> getProductId(Long id) {
+        Product product = productRepository.getOneById(id);
+        if(product == null){
+            throw new ApiException(HttpStatus.NOT_FOUND,"null la k duoc rui");
+        }
+        return new ResponseEntity<>(product,HttpStatus.OK);
     }
 }
